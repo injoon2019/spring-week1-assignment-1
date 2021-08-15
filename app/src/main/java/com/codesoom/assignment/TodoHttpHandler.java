@@ -27,7 +27,7 @@ public class TodoHttpHandler implements HttpHandler {
                 .lines()
                 .collect(Collectors.joining("\n"));
 
-        switch (HttpMethod.compare(method)) {
+        switch (HttpMethod.convert(method)) {
             case GET:
                 todoHttpMethods.handleBasicGetMethod(path, exchange, taskMap);
                 break;

@@ -22,7 +22,7 @@ class TodoHttpHandlerUtilsTest {
     }
 
     @Test
-    @DisplayName("toTitle 메서드는 Http body에 온 content를 Title로 반환한다")
+    @DisplayName("Http body에 온 content를 Title로 반환한다")
     void toTitle() throws JsonProcessingException {
         // given
         String content = "{\"title\" : \"과제하기\"}";
@@ -35,7 +35,7 @@ class TodoHttpHandlerUtilsTest {
     }
 
     @Test
-    @DisplayName("getId 메서드는 URL에서 id 파라미터를 추출한다")
+    @DisplayName("URL에서 id 파라미터를 추출한다")
     void getId() {
         // given
         Long id = 100L;
@@ -49,7 +49,7 @@ class TodoHttpHandlerUtilsTest {
     }
 
     @Test
-    @DisplayName("taskToJSON 메서드는 Task 객체를 JSON으로 변환한다")
+    @DisplayName("Task 객체를 JSON으로 변환한다")
     void taskToJSON() throws IOException {
         // given
         Task task = new Task();
@@ -63,7 +63,7 @@ class TodoHttpHandlerUtilsTest {
     }
 
     @Test
-    @DisplayName("toTask 메서드는 문자열을 Task 객체로 변환한다")
+    @DisplayName("문자열을 Task 객체로 변환한다")
     void toTask() throws JsonProcessingException {
         // given
         String content = "{\"title\" : \"과제하기\"}";
@@ -76,7 +76,7 @@ class TodoHttpHandlerUtilsTest {
     }
 
     @Test
-    @DisplayName("tasksToJSON 메서드는 task들을 JSON으로 변환한다")
+    @DisplayName("task들을 JSON으로 변환한다")
     void tasksToJSON() throws IOException {
         // given
         Task task1 = new Task();
