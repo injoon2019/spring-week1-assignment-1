@@ -3,7 +3,6 @@ package com.codesoom.assignment.utils;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.models.Title;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -50,6 +49,20 @@ class TodoHttpHandlerUtilsTest {
     }
 
     @Test
+    @DisplayName("Task 객체를 JSON으로 변환한다")
+    void taskToJSON() throws IOException {
+        // given
+        Task task = new Task();
+        task.setTitle("과제하기");
+
+        // when
+        String jsonString = TodoHttpHandlerUtils.taskToJSON(task);
+
+        //Then
+        Assertions.assertEquals("{\"id\":1,\"title\":\"과제하기\"}", jsonString);
+    }
+
+    @Test
     @DisplayName("문자열을 Task 객체로 변환한다")
     void toTask() throws JsonProcessingException {
         // given
@@ -60,5 +73,25 @@ class TodoHttpHandlerUtilsTest {
 
         // then
         Assertions.assertTrue("과제하기".equals(task.getTitle()));
+    }
+
+    @Test
+    @DisplayName("task들을 JSON으로 변환한다")
+    void tasksToJSON() throws IOException {
+        // given
+        Task task1 = new Task();
+        task1.setTitle("과제하기1");
+
+        Task task2 = new Task();
+        task2.setTitle("과제하기2");
+
+        tasks.put(task1.getId(), task1);
+        tasks.put(task2.getId(), task2);
+
+        // when
+        String jsonString = TodoHttpHandlerUtils.tasksToJSON(tasks);
+        System.out.println(jsonString);
+        // then
+        Assertions.assertTrue("[{\"id\":0,\"title\":\"과제하기1\"},{\"id\":1,\"title\":\"과제하기2\"}]".equals(jsonString));
     }
 }

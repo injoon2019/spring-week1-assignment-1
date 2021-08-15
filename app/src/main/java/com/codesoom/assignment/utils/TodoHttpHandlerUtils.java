@@ -10,6 +10,7 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 
 public class TodoHttpHandlerUtils {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -23,15 +24,22 @@ public class TodoHttpHandlerUtils {
         return Long.parseLong(splits[splits.length - 1]);
     }
 
-    public static String toJSON(Object object) throws IOException {
+    public static String taskToJSON(Task task) throws IOException {
         OutputStream outputStream = new ByteArrayOutputStream();
-        objectMapper.writeValue(outputStream, object);
+        objectMapper.writeValue(outputStream, task);
 
         return outputStream.toString();
     }
 
     public static Task toTask(String content) throws JsonProcessingException {
         return objectMapper.readValue(content, Task.class);
+    }
+
+    public static String tasksToJSON(Map<Long, Task> taskMap) throws IOException {
+        OutputStream outputStream = new ByteArrayOutputStream();
+        objectMapper.writeValue(outputStream, taskMap.values());
+
+        return outputStream.toString();
     }
 
     public static void writeOutputStream(HttpExchange exchange, String content, StatusCode statusCode) throws IOException {

@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.util.Map;
 
 import static com.codesoom.assignment.utils.TodoHttpHandlerUtils.getId;
-import static com.codesoom.assignment.utils.TodoHttpHandlerUtils.toJSON;
-import static com.codesoom.assignment.utils.TodoHttpHandlerUtils.toTask;
-import static com.codesoom.assignment.utils.TodoHttpHandlerUtils.toTitle;
 import static com.codesoom.assignment.utils.TodoHttpHandlerUtils.writeOutputStream;
-
+import static com.codesoom.assignment.utils.TodoHttpHandlerUtils.toTitle;
+import static com.codesoom.assignment.utils.TodoHttpHandlerUtils.toTask;
+import static com.codesoom.assignment.utils.TodoHttpHandlerUtils.taskToJSON;
+import static com.codesoom.assignment.utils.TodoHttpHandlerUtils.tasksToJSON;
 
 public class TodoHttpMethods {
 
@@ -47,7 +47,7 @@ public class TodoHttpMethods {
         task.setTitle(title.getTitle());
         taskMap.put(id, task);
 
-        content = toJSON(task);
+        content = taskToJSON(task);
         writeOutputStream(exchange, content, StatusCode.OK);
     }
 
@@ -63,7 +63,7 @@ public class TodoHttpMethods {
         task.setTitle(changeTask.getTitle());
         taskMap.put(id, task);
 
-        content = toJSON(task);
+        content = taskToJSON(task);
         writeOutputStream(exchange, content, StatusCode.OK);
     }
 
@@ -74,13 +74,13 @@ public class TodoHttpMethods {
         Long lastSequence = TaskIdGenerator.getLastSequence();
         Task lastTask = taskMap.get(lastSequence);
 
-        content = toJSON(lastTask);
+        content = taskToJSON(lastTask);
         writeOutputStream(exchange, content, StatusCode.Created);
     }
 
     public void handleBasicGetMethod(String path, HttpExchange exchange, Map<Long, Task> taskMap) throws IOException {
         if (URI_WITHOUT_PARAMETERS.equals(path)) {
-            content = toJSON(taskMap);
+            content = tasksToJSON(taskMap);
             writeOutputStream(exchange, content, StatusCode.OK);
             return;
         }
@@ -93,7 +93,7 @@ public class TodoHttpMethods {
             return;
         }
 
-        content = toJSON(task);
+        content = taskToJSON(task);
         writeOutputStream(exchange, content, StatusCode.OK);
     }
 }
