@@ -4,8 +4,8 @@ public class Task {
     private Long id;
     private String title;
 
-    public Task() {
-        this.id = TaskIdGenerator.generateSequence();
+    public Task(Long id) {
+        this.id = id;
     }
 
     public Long getId() {

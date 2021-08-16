@@ -1,6 +1,7 @@
 package com.codesoom.assignment.utils;
 
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.TaskIdGenerator;
 import com.codesoom.assignment.models.Title;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Assertions;
@@ -52,7 +53,7 @@ class TodoHttpHandlerUtilsTest {
     @DisplayName("Task 객체를 JSON으로 변환한다")
     void taskToJSON() throws IOException {
         // given
-        Task task = new Task();
+        Task task = new Task(TaskIdGenerator.generateSequence());
         task.setTitle("과제하기");
 
         // when
@@ -79,10 +80,10 @@ class TodoHttpHandlerUtilsTest {
     @DisplayName("task들을 JSON으로 변환한다")
     void tasksToJSON() throws IOException {
         // given
-        Task task1 = new Task();
+        Task task1 = new Task(TaskIdGenerator.generateSequence());
         task1.setTitle("과제하기1");
 
-        Task task2 = new Task();
+        Task task2 = new Task(TaskIdGenerator.generateSequence());
         task2.setTitle("과제하기2");
 
         tasks.put(task1.getId(), task1);
