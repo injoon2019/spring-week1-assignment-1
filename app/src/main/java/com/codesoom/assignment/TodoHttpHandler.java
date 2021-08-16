@@ -1,6 +1,7 @@
 package com.codesoom.assignment;
 
 import com.codesoom.assignment.models.HttpMethod;
+import com.codesoom.assignment.models.Response;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.utils.TodoHttpMethods;
 import com.sun.net.httpserver.HttpExchange;
@@ -13,6 +14,8 @@ import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
+import static com.codesoom.assignment.utils.TodoHttpHandlerUtils.writeOutputStream;
 
 public class TodoHttpHandler implements HttpHandler {
     private final TodoHttpMethods todoHttpMethods = new TodoHttpMethods();
@@ -27,22 +30,24 @@ public class TodoHttpHandler implements HttpHandler {
                 .lines()
                 .collect(Collectors.joining("\n"));
 
+        Response response = new Response();
         switch (HttpMethod.convert(method)) {
             case GET:
-                todoHttpMethods.handleBasicGetMethod(path, exchange, taskMap);
-                break;
+                response = todoHttpMethods.handleBasicGetMethod(path, exchange, taskMap);
             case POST:
-                todoHttpMethods.handlePostMethodWithParameter(exchange, body, taskMap);
+                response = todoHttpMethods.handlePostMethodWithParameter(exchange, body, taskMap);
                 break;
             case PUT:
-                todoHttpMethods.handlePutMethod(path, exchange, body, taskMap);
+                response = todoHttpMethods.handlePutMethod(path, exchange, body, taskMap);
                 break;
             case PATCH:
-                todoHttpMethods.handlePatchMethod(path, exchange, body, taskMap);
+                response = todoHttpMethods.handlePatchMethod(path, exchange, body, taskMap);
                 break;
             case DELETE:
-                todoHttpMethods.handleDeleteMethod(path, exchange, taskMap);
+                response = todoHttpMethods.handleDeleteMethod(path, exchange, taskMap);
                 break;
         }
+
+        writeOutputStream(response);
     }
 }

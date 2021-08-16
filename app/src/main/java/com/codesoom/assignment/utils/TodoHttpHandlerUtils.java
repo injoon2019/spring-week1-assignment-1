@@ -1,5 +1,6 @@
 package com.codesoom.assignment.utils;
 
+import com.codesoom.assignment.models.Response;
 import com.codesoom.assignment.models.StatusCode;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.models.Title;
@@ -43,6 +44,18 @@ public class TodoHttpHandlerUtils {
     }
 
     public static void writeOutputStream(HttpExchange exchange, String content, StatusCode statusCode) throws IOException {
+        exchange.sendResponseHeaders(statusCode.getValue(), content.getBytes().length);
+        OutputStream outputStream = exchange.getResponseBody();
+        outputStream.write(content.getBytes());
+        outputStream.flush();
+        outputStream.close();
+    }
+
+    public static void writeOutputStream(Response response) throws IOException {
+        HttpExchange exchange = response.getExchange();
+        String content = response.getContent();
+        StatusCode statusCode = response.getStatusCode();
+
         exchange.sendResponseHeaders(statusCode.getValue(), content.getBytes().length);
         OutputStream outputStream = exchange.getResponseBody();
         outputStream.write(content.getBytes());
